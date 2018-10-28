@@ -39,7 +39,7 @@ CMDLP:  LXI H, PROMPT$
         CPI 'L'
         JZ LOAD
         LXI H, ERR$
-        CALL ERROUT
+        JMP ERROUT
 
 ;Get a port address, write byte out
 OUTPUT: CALL SPCOUT
@@ -376,7 +376,7 @@ LOAD4:  CALL CINNE      ; Record Type 01, done
         JNZ LOAD4
         RET             ; Got LF, return to command loop
 CSUMER: LXI H, CSERR$
-        CALL ERROUT
+        JMP ERROUT
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;Monitor Strings
