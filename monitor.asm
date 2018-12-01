@@ -358,7 +358,7 @@ LOAD1:  CALL CINNE
         MOV C, A        ; Checksum record type
         MOV A, B        ; Check record length
         ANA A
-        JZ LOAD3        ; Length == 0, done getting data
+        JZ LOAD4        ; Length == 0, done getting data
 LOAD2:  CALL GETHEX
         MOV M, A        ; Store char at HL
         ADD C
@@ -372,6 +372,8 @@ LOAD3:  CALL GETHEX     ; Get checksum byte
         ORA D
         JZ LOAD         ; Record Type 00, keep going
 LOAD4:  CALL CINNE      ; Record Type 01, done
+        CPI 13          ; Check for CR
+        RZ              ; Got CR, return to command loop
         CPI 10          ; Check for LF
         JNZ LOAD4
         RET             ; Got LF, return to command loop
