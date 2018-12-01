@@ -38,6 +38,8 @@ CMDLP:  LXI H, PROMPT$
         JZ INPUT
         CPI 'L'
         JZ LOAD
+        CPI 'H'
+        JZ HELPMSG
         LXI H, ERR$
         JMP ERROUT
 
@@ -116,6 +118,11 @@ MD1:    MVI A, 13
 MD2:    MOV A, D
         CMP H
         JNZ MD1
+        RET
+
+;Help Meesage Print 
+HELPMSG: LXI H, HLPMSG$
+        CALL STROUT
         RET
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -388,3 +395,11 @@ LOGMSG$: db 13, 10, 10, 'GWMON-80 0.1.1 for 8080/8085/Z80 and Compatible', 13, 1
 PROMPT$: db 13, 10, 10, '>', 0
 ERR$:    db 'ERROR', 0
 CSERR$:  db 'CHECKSUM ERROR', 0
+HLPMSG$: db 13, 10, '++ COMMAND ++', 13, 10
+         db 'D XXXX YYYY	Dump memory from XXXX to YYYY', 13, 10
+         db 'E XXXX		Edit memory starting at XXXX (X to exit entry)', 13, 10
+         db 'G XXXX		GO starting at address XXXX (JMP in, no RET)', 13, 10
+         db 'I XX		Input from I/O port XX and display as hex', 13, 10
+         db 'O XX YY		Output to I/O port XX byte YY', 13, 10
+         db 'L		Load an Intel HEX file into memory', 13, 10
+         db 'H		Help Menu Print', 0
